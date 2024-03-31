@@ -19,26 +19,31 @@ module.exports = {
 				{ waitUntil: "networkidle0" },
 			);
 
-			console.log("Chromium:", await browser.version());
-			console.log("Page Title:", await page.title());
+			console.log("Starting count", await page.title());
 
-			console.log("beforeAmounts");
-
-			const response = await page.evaluate(() => {
+			const amounts = await page.evaluate(() => {
 				return new Promise((res) => {
 					const amountStrings = [];
 					const elements = document.getElementsByClassName("amount");
 					for (const element of elements) {
-						console.log("innerText", element.innerText);
 						amountStrings.push(element.innerText);
 					}
-					console.log("amountStrings", amountStrings);
-					console.log("amountStrings length", amountStrings.length);
 					res(amountStrings);
 				});
 			});
 
-			console.log("response", response);
+			const totalAmount = amounts.reduce((total, amountValue) => {
+				const numberAmount =
+					amountValue === "" ? 0 : Number.parseInt(amountValue, 10);
+
+				if (Number.isNaN(numberAmount) || typeof numberAmount !== "number") {
+					console.log("Can't parse amount", amountValue);
+				}
+
+				return numberAmount + total;
+			}, 0);
+
+			console.log("totalAmount", totalAmount);
 
 			await page.close();
 			await browser.close();
