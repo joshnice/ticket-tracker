@@ -1,30 +1,29 @@
-const chromium = require("chrome-aws-lambda");
+const puppeteer = require("puppeteer-core");
+const chromium = require("@sparticuz/chromium");
 
-exports.handler = async (event, context, callback) => {
-	let result = null;
-	let browser = null;
+module.exports = {
+  handler: async () => {
+    try {
+      const browser = await puppeteer.launch({
+        args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
+        executablePath: await chromium.executablePath(),
+        headless: chromium.headless,
+        ignoreHTTPSErrors: true,
+      });
 
-	try {
-		browser = await chromium.puppeteer.launch({
-			args: chromium.args,
-			defaultViewport: chromium.defaultViewport,
-			executablePath: await chromium.executablePath,
-			headless: chromium.headless,
-			ignoreHTTPSErrors: true,
-		});
+      const page = await browser.newPage();
 
-		const page = await browser.newPage();
+      await page.goto("https://www.google.com", { waitUntil: "networkidle0" });
 
-		await page.goto(event.url || "https://www.google.com");
+      console.log("Chromium:", await browser.version());
+      console.log("Page Title:", await page.title());
 
-		result = await page.title();
-	} catch (error) {
-		return callback(error);
-	} finally {
-		if (browser !== null) {
-			await browser.close();
-		}
-	}
+      await page.close();
 
-	return callback(null, result);
+      await browser.close();
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
 };
