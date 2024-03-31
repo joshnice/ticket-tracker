@@ -22,6 +22,17 @@ module.exports = {
 			console.log("Chromium:", await browser.version());
 			console.log("Page Title:", await page.title());
 
+			await page.evaluate(() => {
+				const amountStrings = [];
+				const elements = document.getElementsByClassName("amount");
+				for (const element of elements) {
+					console.log("innerText", element.innerText);
+					amountStrings.push(element.innerText);
+				}
+				console.log("amountStrings", amountStrings);
+				console.log("amountStrings length", amountStrings.length);
+			});
+
 			await page.close();
 
 			await browser.close();
