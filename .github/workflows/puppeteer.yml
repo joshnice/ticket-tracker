@@ -35,7 +35,7 @@ jobs:
               run: cd ../build && npm i
 
             - name: Zip code and dependencies
-              run: cd ../build && zip -r function ./node_modules index.js package.json
+              run: cd ../build && zip -r function ./node_modules index.js main.js package.json
             
             - name: Sync S3 bucket 
               run: cd ../build && aws s3 cp ./function.zip s3://ticket-tracker-lambda-code-bucket

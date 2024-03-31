@@ -6,7 +6,8 @@
 	"workspaces": ["./aws", "./puppeteer", "./twitter"],
 	"scripts": {
 		"aws-deploy": "cd aws && cdk deploy",
-		"aws-destroy": "cd aws && cdk destroy"
+		"aws-destroy": "cd aws && cdk destroy",
+		"dev": "node ./puppeteer/local.js"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.6.3"
