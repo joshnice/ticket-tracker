@@ -22,19 +22,28 @@ module.exports = {
 			console.log("Chromium:", await browser.version());
 			console.log("Page Title:", await page.title());
 
-			await page.evaluate(() => {
-				const amountStrings = [];
-				const elements = document.getElementsByClassName("amount");
-				for (const element of elements) {
-					console.log("innerText", element.innerText);
-					amountStrings.push(element.innerText);
-				}
-				console.log("amountStrings", amountStrings);
-				console.log("amountStrings length", amountStrings.length);
-			});
+			const getAmounts = async () => {
+				// biome-ignore lint/suspicious/noAsyncPromiseExecutor: <explanation>
+				return new Promise(async (resolve) => {
+					await page.evaluate(() => {
+						const amountStrings = [];
+						const elements = document.getElementsByClassName("amount");
+						for (const element of elements) {
+							console.log("innerText", element.innerText);
+							amountStrings.push(element.innerText);
+						}
+						console.log("amountStrings", amountStrings);
+						console.log("amountStrings length", amountStrings.length);
+						resolve();
+					});
+				});
+			};
+
+			console.log("beforeAmounts");
+			await getAmounts();
+			console.log("afterAmounts");
 
 			await page.close();
-
 			await browser.close();
 		} catch (error) {
 			throw new Error(error.message);
