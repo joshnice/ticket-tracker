@@ -27,15 +27,18 @@ jobs:
               with:
                 node-version: latest
                 cache: npm
+
+            - name: Setup folder for install
+              run: mv ./puppeteer ../build
             
             - name: Install dependencies
-              run: cd puppeteer && npm i
+              run: cd ../build && npm i
 
             - name: Zip code and dependencies
-              run: cd puppeteer && zip -r function ./node_modules index.js package.json
+              run: cd ../build && zip -r function ./node_modules index.js package.json
             
             - name: Sync S3 bucket 
-              run: cd puppeteer && aws s3 cp ./function.zip s3://ticket-tracker-lambda-code-bucket
+              run: cd ../build && aws s3 cp ./function.zip s3://ticket-tracker-lambda-code-bucket
             
             - name: Update lambda function
               run: aws lambda update-function-code --function-name ticket-tracker --s3-bucket ticket-tracker-lambda-code-bucket --s3-key function.zip 
