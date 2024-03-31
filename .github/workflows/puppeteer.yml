@@ -31,7 +31,7 @@ jobs:
             - name: Install dependencies
               run: cd puppeteer && npm i
 
-            - name: Zip build and dependencies
+            - name: Zip code and dependencies
               run: cd puppeteer && zip -r function ./node_modules index.js
             
             - name: Sync S3 bucket 
