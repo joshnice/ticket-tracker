@@ -1,4 +1,4 @@
-name: Pupeteer
+name: puppeteer
 on:
     workflow_dispatch:
     push:
@@ -29,13 +29,13 @@ jobs:
                 cache: npm
             
             - name: Install dependencies
-              run: cd pupeteer && npm i
+              run: cd puppeteer && npm i
 
             - name: Zip build and dependencies
-              run: cd pupeteer && zip -r function ./node_modules index.js
+              run: cd puppeteer && zip -r function ./node_modules index.js
             
             - name: Sync S3 bucket 
-              run: cd pupeteer && aws s3 cp ./function.zip s3://ticket-tracker-lambda-code-bucket
+              run: cd puppeteer && aws s3 cp ./function.zip s3://ticket-tracker-lambda-code-bucket
             
             - name: Update lambda function
               run: aws lambda update-function-code --function-name ticket-tracker --s3-bucket ticket-tracker-lambda-code-bucket --s3-key function.zip 
