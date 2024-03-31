@@ -9,6 +9,7 @@
 	},
 	"dependencies": {
 		"chrome-aws-lambda": "^10.1.0",
+		"lambdafs": "^2.1.1",
 		"puppeteer-core": "^22.6.1"
 	},
 	"author": "joshnice",
