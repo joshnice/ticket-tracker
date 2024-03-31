@@ -15,7 +15,7 @@ exports.handler = async (event, context, callback) => {
 
 		const page = await browser.newPage();
 
-		await page.goto(event.url || "https://google.com");
+		await page.goto(event.url || "https://www.google.com");
 
 		result = await page.title();
 	} catch (error) {
