@@ -1,11 +1,15 @@
 {
-  "name": "ticket-tracker",
-  "version": "1.0.0",
-  "description": "Tweets the amount of tickets left for each game for Derby",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "joshnice",
-  "license": "ISC"
+	"name": "ticket-tracker",
+	"version": "1.0.0",
+	"description": "Tweets the amount of tickets left for each game for Derby",
+	"main": "index.js",
+	"workspaces": ["./aws", "./puppeteer", "./twitter"],
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.6.3"
+	},
+	"author": "joshnice",
+	"license": "ISC"
 }
