@@ -16,7 +16,7 @@ export class AwsStack extends cdk.Stack {
 		});
 
 		new lambda.Function(this, "Function", {
-			runtime: lambda.Runtime.NODEJS_16_X,
+			runtime: lambda.Runtime.NODEJS_20_X,
 			handler: "index.handler",
 			code: lambda.Code.fromBucket(bucket, "function.zip"),
 			timeout: cdk.Duration.seconds(30),
