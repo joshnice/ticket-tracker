@@ -1,6 +1,6 @@
 const chromium = require("chrome-aws-lambda");
 
-exports.handler = async (_, __, callback) => {
+exports.handler = async (event, context, callback) => {
 	let result = null;
 	let browser = null;
 
@@ -15,7 +15,7 @@ exports.handler = async (_, __, callback) => {
 
 		const page = await browser.newPage();
 
-		await page.goto("https://www.dcfc.co.uk");
+		await page.goto(event.url || "https://google.com");
 
 		result = await page.title();
 	} catch (error) {
