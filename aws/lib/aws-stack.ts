@@ -20,7 +20,7 @@ export class AwsStack extends cdk.Stack {
 			removalPolicy: cdk.RemovalPolicy.DESTROY,
 		});
 
-		new lambda.Function(this, "Function", {
+		const lambdaFn = new lambda.Function(this, "Function", {
 			runtime: lambda.Runtime.NODEJS_20_X,
 			handler: "index.handler",
 			code: lambda.Code.fromBucket(bucket, "function.zip"),
@@ -29,7 +29,7 @@ export class AwsStack extends cdk.Stack {
 			functionName: LAMBDA_NAME,
 		});
 
-		new dynamodb.TableV2(this, "Table", {
+		const table = new dynamodb.TableV2(this, "Table", {
 			tableName: DYNAMODB_NAME,
 			partitionKey: { name: "pk", type: dynamodb.AttributeType.STRING },
 			tableClass: dynamodb.TableClass.STANDARD_INFREQUENT_ACCESS,
@@ -38,5 +38,7 @@ export class AwsStack extends cdk.Stack {
 				writeCapacity: cdk.aws_dynamodb.Capacity.autoscaled({ maxCapacity: 1 }),
 			}),
 		});
+
+		table.grantReadWriteData(lambdaFn);
 	}
 }

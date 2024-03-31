@@ -8,13 +8,12 @@ const client = new DynamoDBClient({});
 
 const dynamo = DynamoDBDocumentClient.from(client);
 
+// Todo: Move into lambda environment var
 const TABLE_NAME = "ticket-tracker";
 
 module.exports = {
 	getGames: async () => {
-		console.log("start getGames");
 		const games = await dynamo.send(new ScanCommand({ TableName: TABLE_NAME }));
-		console.log("games", games);
-		return games;
+		return games.Items;
 	},
 };
