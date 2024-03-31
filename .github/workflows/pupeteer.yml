@@ -1,0 +1,41 @@
+name: Pupeteer
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            main
+        paths:
+            puppeteer/**
+
+jobs: 
+    upload:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+            
+            - name: Configure AWS Credentials
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                aws-region: eu-west-2
+
+            - name: Setup node
+              uses: actions/setup-node@v3
+              with:
+                node-version: latest
+                cache: npm
+            
+            - name: Install dependencies
+              run: cd pupeteer && npm i
+
+            - name: Zip build and dependencies
+              run: cd pupeteer && zip -r function ./node_modules index.js
+            
+            - name: Sync S3 bucket 
+              run: cd pupeteer && aws s3 cp ./function.zip s3://ticket-tracker-lambda-code-bucket
+            
+            - name: Update lambda function
+              run: aws lambda update-function-code --function-name ticket-tracker --s3-bucket ticket-tracker-lambda-code-bucket --s3-key function.zip 
