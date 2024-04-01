@@ -1,3 +1,5 @@
-const { main } = require("./main");
+const { getAmountOfTickets } = require("./main");
+const { tweetAmountOfTicketsLeft } = require("./twitter");
 
-main();
+// getAmountOfTickets();
+tweetAmountOfTicketsLeft("test", 100);
