@@ -33,14 +33,18 @@ module.exports = {
 			});
 
 			const totalAmount = amounts.reduce((total, amountValue) => {
-				const numberAmount =
-					amountValue === "" ? 0 : Number.parseInt(amountValue, 10);
-
-				if (Number.isNaN(numberAmount) || typeof numberAmount !== "number") {
-					console.log("Can't parse amount", amountValue);
+				if (amountValue === "") {
+					return total;
 				}
 
-				return numberAmount + total;
+				const parsedAmount = Number.parseInt(amountValue, 10);
+
+				if (Number.isNaN(parsedAmount) || typeof parsedAmount !== "number") {
+					console.log("Can't parse amount", amountValue);
+					return total;
+				}
+
+				return parsedAmount + total;
 			}, 0);
 
 			console.log("totalAmount", totalAmount);
