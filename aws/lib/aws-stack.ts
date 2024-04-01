@@ -4,6 +4,8 @@ import {
 	aws_s3 as s3,
 	aws_lambda as lambda,
 	aws_dynamodb as dynamodb,
+	aws_events as events,
+	aws_events_targets as eventTargets,
 } from "aws-cdk-lib";
 import "dotenv/config";
 
@@ -11,6 +13,9 @@ const NAME = "ticket-tracker";
 const BUCKET_NAME = `${NAME}-lambda-code-bucket`;
 const LAMBDA_NAME = NAME;
 const DYNAMODB_NAME = NAME;
+const EVENT_NAME = `${NAME}-events`;
+
+const TWEET_TIMES = [10, 13, 19];
 
 export class AwsStack extends cdk.Stack {
 	constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -63,5 +68,13 @@ export class AwsStack extends cdk.Stack {
 		});
 
 		table.grantReadWriteData(lambdaFn);
+
+		TWEET_TIMES.forEach((time) => {
+			new events.Rule(this, `${EVENT_NAME}-${time}`, {
+				description: `Runs ticket tracker lambda function at ${time}:00 every day`,
+				targets: [new eventTargets.LambdaFunction(lambdaFn)],
+				schedule: events.Schedule.cron({ hour: time.toString() }),
+			});
+		});
 	}
 }
