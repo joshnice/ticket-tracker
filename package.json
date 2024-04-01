@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "Tweets the amount of tickets left for each game for Derby",
 	"main": "index.js",
-	"workspaces": ["./aws", "./puppeteer", "./twitter"],
+	"workspaces": ["./aws", "./puppeteer"],
 	"scripts": {
 		"aws-deploy": "cd aws && cdk deploy",
 		"aws-destroy": "cd aws && cdk destroy",
