@@ -7,7 +7,7 @@ module.exports = {
 		const gamesToPost = [];
 		console.log("games", games);
 		for (const game of games) {
-			if (new Date(game.match_time) < new Date()) {
+			if (new Date(game.match_time) > new Date()) {
 				const amount = await getAmountOfTickets(game.url);
 				gamesToPost.push({ name: game.pk, amount });
 			}
