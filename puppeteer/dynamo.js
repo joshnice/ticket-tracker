@@ -3,13 +3,11 @@ const {
 	DynamoDBDocumentClient,
 	ScanCommand,
 } = require("@aws-sdk/lib-dynamodb");
+require("dotenv").config();
 
 const client = new DynamoDBClient({});
 
 const dynamo = DynamoDBDocumentClient.from(client);
-
-// Todo: Move into lambda environment var
-const TABLE_NAME = "ticket-tracker";
 
 module.exports = {
 	/**
@@ -24,7 +22,9 @@ module.exports = {
 	 * @returns {Promise<{pk: string, url: string, match_time: string}[]>}
 	 */
 	getGames: async () => {
-		const games = await dynamo.send(new ScanCommand({ TableName: TABLE_NAME }));
+		const games = await dynamo.send(
+			new ScanCommand({ TableName: process.env.DYNAMO_TABLE_NAME }),
+		);
 		return games.Items;
 	},
 };

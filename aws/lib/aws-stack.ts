@@ -5,6 +5,7 @@ import {
 	aws_lambda as lambda,
 	aws_dynamodb as dynamodb,
 } from "aws-cdk-lib";
+import "dotenv/config";
 
 const NAME = "ticket-tracker";
 const BUCKET_NAME = `${NAME}-lambda-code-bucket`;
@@ -20,6 +21,21 @@ export class AwsStack extends cdk.Stack {
 			removalPolicy: cdk.RemovalPolicy.DESTROY,
 		});
 
+		const {
+			TWITTER_APP_KEY,
+			TWITTER_APP_SECRET,
+			TWITTER_ACCESS_TOKEN,
+			TWITTER_ACCESS_SECRET,
+		} = process.env;
+		if (
+			TWITTER_APP_KEY == null ||
+			TWITTER_APP_SECRET == null ||
+			TWITTER_ACCESS_TOKEN == null ||
+			TWITTER_ACCESS_SECRET == null
+		) {
+			throw new Error("Environment variables not set up correctly");
+		}
+
 		const lambdaFn = new lambda.Function(this, "Function", {
 			runtime: lambda.Runtime.NODEJS_20_X,
 			handler: "index.handler",
@@ -27,6 +43,13 @@ export class AwsStack extends cdk.Stack {
 			timeout: cdk.Duration.minutes(5),
 			memorySize: 512,
 			functionName: LAMBDA_NAME,
+			environment: {
+				TWITTER_APP_KEY,
+				TWITTER_APP_SECRET,
+				TWITTER_ACCESS_TOKEN,
+				TWITTER_ACCESS_SECRET,
+				DYNAMO_TABLE_NAME: NAME,
+			},
 		});
 
 		const table = new dynamodb.TableV2(this, "Table", {
