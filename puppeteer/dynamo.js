@@ -12,6 +12,9 @@ const dynamo = DynamoDBDocumentClient.from(client);
 const TABLE_NAME = "ticket-tracker";
 
 module.exports = {
+	/**
+	 * @returns {Promise<{Pk: string, url: string}[]>}
+	 */
 	getGames: async () => {
 		const games = await dynamo.send(new ScanCommand({ TableName: TABLE_NAME }));
 		return games.Items;

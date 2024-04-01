@@ -2,7 +2,11 @@ const puppeteer = require("puppeteer-core");
 const chromium = require("@sparticuz/chromium");
 
 module.exports = {
-	main: async () => {
+	/**
+	 * @param {string} url
+	 * @returns {Promise<number>}
+	 */
+	getAmountOfTickets: async (url) => {
 		try {
 			const browser = await puppeteer.launch({
 				args: chromium.args,
@@ -14,10 +18,7 @@ module.exports = {
 
 			const page = await browser.newPage();
 
-			await page.goto(
-				"https://tickets.dcfc.co.uk/en-GB/events/derby%20county%20v%20leyton%20orient/2024-4-13_15.00/pride%20park%20stadium?hallmap",
-				{ waitUntil: "networkidle0" },
-			);
+			await page.goto(url, { waitUntil: "networkidle0" });
 
 			console.log("Starting count", await page.title());
 
@@ -51,8 +52,10 @@ module.exports = {
 
 			await page.close();
 			await browser.close();
+			return totalAmount;
 		} catch (error) {
-			throw new Error(error.message);
+			tconsole.log("error", error);
+			return null;
 		}
 	},
 };
