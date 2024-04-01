@@ -73,7 +73,7 @@ export class AwsStack extends cdk.Stack {
 			new events.Rule(this, `${EVENT_NAME}-${time}`, {
 				description: `Runs ticket tracker lambda function at ${time}:00 every day`,
 				targets: [new eventTargets.LambdaFunction(lambdaFn)],
-				schedule: events.Schedule.cron({ hour: time.toString() }),
+				schedule: events.Schedule.cron({ hour: time.toString(), minute: "0" }),
 			});
 		});
 	}
