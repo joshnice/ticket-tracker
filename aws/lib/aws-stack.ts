@@ -15,7 +15,7 @@ const LAMBDA_NAME = NAME;
 const DYNAMODB_NAME = NAME;
 const EVENT_NAME = `${NAME}-events`;
 
-const TWEET_TIMES = [10, 13, 19];
+const TWEET_TIMES = [9, 12, 18];
 
 export class AwsStack extends cdk.Stack {
 	constructor(scope: Construct, id: string, props?: cdk.StackProps) {
