@@ -61,10 +61,7 @@ export class AwsStack extends cdk.Stack {
 			tableName: DYNAMODB_NAME,
 			partitionKey: { name: "pk", type: dynamodb.AttributeType.STRING },
 			tableClass: dynamodb.TableClass.STANDARD_INFREQUENT_ACCESS,
-			billing: cdk.aws_dynamodb.Billing.provisioned({
-				readCapacity: cdk.aws_dynamodb.Capacity.fixed(1),
-				writeCapacity: cdk.aws_dynamodb.Capacity.autoscaled({ maxCapacity: 1 }),
-			}),
+			billing: cdk.aws_dynamodb.Billing.onDemand(),
 		});
 
 		table.grantReadWriteData(lambdaFn);
