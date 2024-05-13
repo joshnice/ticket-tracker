@@ -35,6 +35,8 @@ module.exports = {
 
 		const games = await dynamo.send(command);
 
+		console.log("games", games);
+
 		return games.Items[0];
 	},
 };
