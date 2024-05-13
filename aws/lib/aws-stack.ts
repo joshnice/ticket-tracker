@@ -15,18 +15,31 @@ const LAMBDA_NAME = NAME;
 const DYNAMODB_NAME = NAME;
 const EVENT_NAME = `${NAME}-events`;
 
-const MATCH_TIMES = [9, 12, 18];
+const MATCH_TWEET_TIMES = [8, 11, 18];
 
-const SEASON_TICKET_TIMES = [17];
+const SEASON_TICKET_TWEET_TIMES = [17];
 
 export class AwsStack extends cdk.Stack {
 	constructor(scope: Construct, id: string, props?: cdk.StackProps) {
 		super(scope, id, props);
 
-		const bucket = new s3.Bucket(this, NAME, {
-			bucketName: BUCKET_NAME,
-			removalPolicy: cdk.RemovalPolicy.DESTROY,
-		});
+		const matchDayTicketsBucket = new s3.Bucket(
+			this,
+			`${BUCKET_NAME}-match-tickets`,
+			{
+				bucketName: `${BUCKET_NAME}-match-tickets`,
+				removalPolicy: cdk.RemovalPolicy.DESTROY,
+			},
+		);
+
+		const seasonTicketBucket = new s3.Bucket(
+			this,
+			`${BUCKET_NAME}-season-tickets`,
+			{
+				bucketName: `${BUCKET_NAME}-season-tickets`,
+				removalPolicy: cdk.RemovalPolicy.DESTROY,
+			},
+		);
 
 		const {
 			TWITTER_APP_KEY,
@@ -43,36 +56,69 @@ export class AwsStack extends cdk.Stack {
 			throw new Error("Environment variables not set up correctly");
 		}
 
-		const lambdaFn = new lambda.Function(this, "Function", {
-			runtime: lambda.Runtime.NODEJS_20_X,
-			handler: "index.handler",
-			code: lambda.Code.fromBucket(bucket, "function.zip"),
-			timeout: cdk.Duration.minutes(5),
-			memorySize: 512,
-			functionName: LAMBDA_NAME,
-			environment: {
-				TWITTER_APP_KEY,
-				TWITTER_APP_SECRET,
-				TWITTER_ACCESS_TOKEN,
-				TWITTER_ACCESS_SECRET,
-				DYNAMO_TABLE_NAME: NAME,
+		const matchTicketsLambdaFunction = new lambda.Function(
+			this,
+			`match-${LAMBDA_NAME}`,
+			{
+				runtime: lambda.Runtime.NODEJS_20_X,
+				handler: "index.handler",
+				code: lambda.Code.fromBucket(matchDayTicketsBucket, "function.zip"),
+				timeout: cdk.Duration.minutes(5),
+				memorySize: 512,
+				functionName: `match-${LAMBDA_NAME}`,
+				environment: {
+					TWITTER_APP_KEY,
+					TWITTER_APP_SECRET,
+					TWITTER_ACCESS_TOKEN,
+					TWITTER_ACCESS_SECRET,
+					DYNAMO_TABLE_NAME: NAME,
+				},
 			},
-		});
+		);
 
-		const table = new dynamodb.TableV2(this, "Table", {
+		const seasonTicketsLambdaFunction = new lambda.Function(
+			this,
+			`season-${LAMBDA_NAME}`,
+			{
+				runtime: lambda.Runtime.NODEJS_20_X,
+				handler: "index.handler",
+				code: lambda.Code.fromBucket(seasonTicketBucket, "function.zip"),
+				timeout: cdk.Duration.minutes(5),
+				memorySize: 512,
+				functionName: `season-${LAMBDA_NAME}`,
+				environment: {
+					TWITTER_APP_KEY,
+					TWITTER_APP_SECRET,
+					TWITTER_ACCESS_TOKEN,
+					TWITTER_ACCESS_SECRET,
+					DYNAMO_TABLE_NAME: NAME,
+				},
+			},
+		);
+
+		const table = new dynamodb.TableV2(this, DYNAMODB_NAME, {
 			tableName: DYNAMODB_NAME,
-			partitionKey: { name: "pk", type: dynamodb.AttributeType.STRING },
-			sortKey: { name: "sk", type: dynamodb.AttributeType.STRING },
+			partitionKey: { name: "match", type: dynamodb.AttributeType.STRING },
+			sortKey: { name: "type", type: dynamodb.AttributeType.STRING },
 			tableClass: dynamodb.TableClass.STANDARD_INFREQUENT_ACCESS,
 			billing: cdk.aws_dynamodb.Billing.onDemand(),
 		});
 
-		table.grantReadWriteData(lambdaFn);
+		table.grantReadWriteData(matchTicketsLambdaFunction);
+		table.grantReadWriteData(seasonTicketsLambdaFunction);
 
-		SEASON_TICKET_TIMES.forEach((time) => {
+		MATCH_TWEET_TIMES.forEach((time) => {
 			new events.Rule(this, `${EVENT_NAME}-${time}`, {
-				description: `Runs ticket tracker lambda function at ${time}:00 every day`,
-				targets: [new eventTargets.LambdaFunction(lambdaFn)],
+				description: `Runs match ticket tracker lambda function at ${time}:00 every day`,
+				targets: [new eventTargets.LambdaFunction(matchTicketsLambdaFunction)],
+				schedule: events.Schedule.cron({ hour: time.toString(), minute: "0" }),
+			});
+		});
+
+		SEASON_TICKET_TWEET_TIMES.forEach((time) => {
+			new events.Rule(this, `${EVENT_NAME}-${time}`, {
+				description: `Runs season ticket tracker lambda function at ${time}:00 every day`,
+				targets: [new eventTargets.LambdaFunction(seasonTicketsLambdaFunction)],
 				schedule: events.Schedule.cron({ hour: time.toString(), minute: "0" }),
 			});
 		});
