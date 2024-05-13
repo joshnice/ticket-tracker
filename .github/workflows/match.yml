@@ -38,7 +38,7 @@ jobs:
               run: cd ../build && zip -r function ./node_modules index.js main.js dynamo.js twitter.js package.json
             
             - name: Sync S3 bucket 
-              run: cd ../build && aws s3 cp ./function.zip s3://ticket-tracker-lambda-code-bucket
+              run: cd ../build && aws s3 cp ./function.zip s3://ticket-tracker-lambda-code-bucket-match-tickets
             
             - name: Update lambda function
-              run: aws lambda update-function-code --function-name ticket-tracker --s3-bucket ticket-tracker-lambda-code-bucket --s3-key function.zip 
+              run: aws lambda update-function-code --function-name match-ticket-tracker --s3-bucket ticket-tracker-lambda-code-bucket-match-tickets --s3-key function.zip 
