@@ -15,7 +15,9 @@ const LAMBDA_NAME = NAME;
 const DYNAMODB_NAME = NAME;
 const EVENT_NAME = `${NAME}-events`;
 
-const TWEET_TIMES = [9, 12, 18];
+const MATCH_TIMES = [9, 12, 18];
+
+const SEASON_TICKET_TIMES = [17];
 
 export class AwsStack extends cdk.Stack {
 	constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -60,13 +62,14 @@ export class AwsStack extends cdk.Stack {
 		const table = new dynamodb.TableV2(this, "Table", {
 			tableName: DYNAMODB_NAME,
 			partitionKey: { name: "pk", type: dynamodb.AttributeType.STRING },
+			sortKey: { name: "sk", type: dynamodb.AttributeType.STRING },
 			tableClass: dynamodb.TableClass.STANDARD_INFREQUENT_ACCESS,
 			billing: cdk.aws_dynamodb.Billing.onDemand(),
 		});
 
 		table.grantReadWriteData(lambdaFn);
 
-		TWEET_TIMES.forEach((time) => {
+		SEASON_TICKET_TIMES.forEach((time) => {
 			new events.Rule(this, `${EVENT_NAME}-${time}`, {
 				description: `Runs ticket tracker lambda function at ${time}:00 every day`,
 				targets: [new eventTargets.LambdaFunction(lambdaFn)],
