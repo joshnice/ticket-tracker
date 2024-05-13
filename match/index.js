@@ -9,7 +9,7 @@ module.exports = {
 		for (const game of games) {
 			if (new Date(game.match_time) > new Date()) {
 				const amount = await getAmountOfTickets(game.url);
-				gamesToPost.push({ name: game.pk, amount });
+				gamesToPost.push({ name: game.match, amount });
 			}
 		}
 

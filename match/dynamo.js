@@ -15,16 +15,27 @@ module.exports = {
 	 *
 	 * [{
 	 *		match_time: '13-04-2024-15-00',
-	 * 		pk: 'Leyton Orient',
+	 * 		match: 'Leyton Orient',
+	 * 		type: 'Match'
 	 * 		url: 'https://tickets.dcfc.co.uk/en-GB/events/derby%20county%20v%20leyton%20orient/2024-4-13_15.00/pride%20park%20stadium?hallmap'
 	 *	}]
 	 *
-	 * @returns {Promise<{pk: string, url: string, match_time: string}[]>}
+	 * @returns {Promise<{match: string, type: string, url: string, match_time: string}[]>}
 	 */
 	getGames: async () => {
-		const games = await dynamo.send(
-			new ScanCommand({ TableName: process.env.DYNAMO_TABLE_NAME }),
-		);
-		return games.Items;
+		const command = new QueryCommand({
+			TableName: process.env.DYNAMO_TABLE_NAME,
+			KeyConditionExpression: "type = :a",
+			ExpressionAttributeValues: {
+				":a": "match",
+			},
+		});
+
+		const games = await dynamo.send(command);
+
+		console.log("games", games);
+
+		// return games.Items;
+		return [];
 	},
 };
