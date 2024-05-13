@@ -54,7 +54,7 @@ module.exports = {
 			await browser.close();
 			return totalAmount;
 		} catch (error) {
-			tconsole.log("error", error);
+			console.log("error", error);
 			return null;
 		}
 	},
