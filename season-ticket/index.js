@@ -4,7 +4,7 @@ const { tweetAmountOfTicketsLeft } = require("./twitter");
 
 module.exports = {
 	handler: async () => {
-		const seasonTicket = getSeasonTicket();
+		const seasonTicket = await getSeasonTicket();
 		const amount = await getAmountOfTickets(seasonTicket.url);
 		await tweetAmountOfTicketsLeft(amount);
 	},
