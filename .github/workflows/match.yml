@@ -1,11 +1,11 @@
-name: puppeteer
+name: match
 on:
     workflow_dispatch:
     push:
         branches:
             main
         paths:
-            puppeteer/**
+            match/**
 
 jobs: 
     upload:
@@ -29,7 +29,7 @@ jobs:
                 cache: npm
 
             - name: Setup folder for install
-              run: mv ./puppeteer ../build
+              run: mv ./match ../build
             
             - name: Install dependencies
               run: cd ../build && npm i
