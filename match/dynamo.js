@@ -1,7 +1,7 @@
 const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
 const {
 	DynamoDBDocumentClient,
-	QueryCommand,
+	ScanCommand,
 } = require("@aws-sdk/lib-dynamodb");
 require("dotenv").config();
 
@@ -23,7 +23,7 @@ module.exports = {
 	 * @returns {Promise<{match: string, type: string, url: string, match_time: string}[]>}
 	 */
 	getGames: async () => {
-		const command = new QueryCommand({
+		const command = new ScanCommand({
 			TableName: process.env.DYNAMO_TABLE_NAME,
 			KeyConditionExpression: "#type = :a",
 			ExpressionAttributeNames: {
