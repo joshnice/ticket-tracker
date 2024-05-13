@@ -25,7 +25,10 @@ module.exports = {
 	getGames: async () => {
 		const command = new QueryCommand({
 			TableName: process.env.DYNAMO_TABLE_NAME,
-			KeyConditionExpression: "type = :a",
+			KeyConditionExpression: "#type = :a",
+			ExpressionAttributeNames: {
+				"#type": "type",
+			},
 			ExpressionAttributeValues: {
 				":a": "match",
 			},
