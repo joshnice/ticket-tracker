@@ -14,7 +14,7 @@ module.exports = {
 	 */
 	tweetAmountOfTicketsLeft: async (amount) => {
 		await twitterClient.v2.tweet(
-			`Number of remaining seasons tickets left is ${amount} \n\n#dcfc #dcfcfans 🐏🐏🐏`,
+			`Number of available seasons tickets left is ${amount} \n\n#dcfc #dcfcfans 🐏🐏🐏`,
 		);
 	},
 };
