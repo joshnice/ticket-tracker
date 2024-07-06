@@ -15,7 +15,7 @@ const LAMBDA_NAME = NAME;
 const DYNAMODB_NAME = NAME;
 const EVENT_NAME = `${NAME}-events`;
 
-const MATCH_TWEET_TIMES = [8, 11, 18];
+const MATCH_TWEET_TIMES = [18];
 
 const SEASON_TICKET_TWEET_TIMES = [17];
 
