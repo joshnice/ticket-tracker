@@ -14,13 +14,13 @@ module.exports = {
 	 * Example of return data:
 	 *
 	 * [{
-	 *		match_time: '13-04-2024-15-00',
+	 *		match_time: 1722092400,
 	 * 		match: 'Leyton Orient',
 	 * 		type: 'Match'
 	 * 		url: 'https://tickets.dcfc.co.uk/en-GB/events/derby%20county%20v%20leyton%20orient/2024-4-13_15.00/pride%20park%20stadium?hallmap'
 	 *	}]
 	 *
-	 * @returns {Promise<{match: string, type: string, url: string, match_time: string}[]>}
+	 * @returns {Promise<{match: string, type: string, url: string, match_time: number}[]>}
 	 */
 	getGames: async () => {
 		const command = new ScanCommand({
