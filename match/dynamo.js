@@ -16,11 +16,12 @@ module.exports = {
 	 * [{
 	 *		match_time: 1722092400,
 	 * 		match: 'Leyton Orient',
-	 * 		type: 'Match'
+	 * 		type: 'Match',
+	 * 		venue: 'home'
 	 * 		url: 'https://tickets.dcfc.co.uk/en-GB/events/derby%20county%20v%20leyton%20orient/2024-4-13_15.00/pride%20park%20stadium?hallmap'
 	 *	}]
 	 *
-	 * @returns {Promise<{match: string, type: string, url: string, match_time: number}[]>}
+	 * @returns {Promise<{match: string, type: string, url: string, match_time: number, venue: string}[]>}
 	 */
 	getGames: async () => {
 		const command = new ScanCommand({
@@ -35,9 +36,6 @@ module.exports = {
 		});
 
 		const games = await dynamo.send(command);
-
-		console.log("games", games);
-
 		return games.Items;
 	},
 };

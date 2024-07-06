@@ -12,10 +12,11 @@ module.exports = {
 	/**
 	 * @param {string} club
 	 * @param {number} amount
+	 * @param {"home" | "away"} venue
 	 */
-	tweetAmountOfTicketsLeft: async (club, amount) => {
+	tweetAmountOfTicketsLeft: async (club, amount, venue = "home") => {
 		await twitterClient.v2.tweet(
-			`Number of remaining home tickets left for the ${club} game is ${amount} \n\n#dcfc #dcfcfans 🐏🐏🐏`,
+			`Number of remaining ${venue} tickets left for the ${club} game is ${amount} \n\n#dcfc #dcfcfans 🐏🐏🐏`,
 		);
 	},
 };
