@@ -19,7 +19,7 @@ const MATCH_TWEET_TIMES = [18];
 
 const SEASON_TICKET_TWEET_TIMES = [17];
 
-export class AwsStack extends cdk.Stack {
+export class TicketTracker extends cdk.Stack {
 	constructor(scope: Construct, id: string, props?: cdk.StackProps) {
 		super(scope, id, props);
 
