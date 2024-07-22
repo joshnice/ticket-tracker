@@ -14,11 +14,11 @@ module.exports = {
 	 */
 	tweetUpcomingGames: async (games) => {
 		const gamesString = games
-			.map((game) => `${game.club}: ${game.amount}`)
+			.map((game) => `${game.club} - ${game.amount}`)
 			.join("\n");
 
 		await twitterClient.v2.tweet(
-			`Number of remaining home tickets left for the following games:\n\n
+			`Number of remaining home tickets left for the next ${games.length} games\n\n
 			${gamesString}\n\n
 			#dcfc #dcfcfans 🐏🐏🐏`,
 		);
