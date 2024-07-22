@@ -19,6 +19,8 @@ const MATCH_TWEET_TIMES = [18];
 
 const SEASON_TICKET_TWEET_TIMES = [17];
 
+const UPCOMING_TWEET_TIMES = [19];
+
 export class TicketTracker extends cdk.Stack {
 	constructor(scope: Construct, id: string, props?: cdk.StackProps) {
 		super(scope, id, props);
@@ -37,6 +39,15 @@ export class TicketTracker extends cdk.Stack {
 			`${BUCKET_NAME}-season-tickets`,
 			{
 				bucketName: `${BUCKET_NAME}-season-tickets`,
+				removalPolicy: cdk.RemovalPolicy.DESTROY,
+			},
+		);
+
+		const upcomingMatchesBucket = new s3.Bucket(
+			this,
+			`${BUCKET_NAME}-upcoming-matches-tickets`,
+			{
+				bucketName: `${BUCKET_NAME}-upcoming-matches-tickets`,
 				removalPolicy: cdk.RemovalPolicy.DESTROY,
 			},
 		);
@@ -66,6 +77,26 @@ export class TicketTracker extends cdk.Stack {
 				timeout: cdk.Duration.minutes(5),
 				memorySize: 512,
 				functionName: `match-${LAMBDA_NAME}`,
+				environment: {
+					TWITTER_APP_KEY,
+					TWITTER_APP_SECRET,
+					TWITTER_ACCESS_TOKEN,
+					TWITTER_ACCESS_SECRET,
+					DYNAMO_TABLE_NAME: NAME,
+				},
+			},
+		);
+
+		const upcomingMatchesTicketsLambdaFunction = new lambda.Function(
+			this,
+			`upcoming-matches-${LAMBDA_NAME}`,
+			{
+				runtime: lambda.Runtime.NODEJS_20_X,
+				handler: "index.handler",
+				code: lambda.Code.fromBucket(upcomingMatchesBucket, "function.zip"),
+				timeout: cdk.Duration.minutes(5),
+				memorySize: 512,
+				functionName: `upcoming-matches-${LAMBDA_NAME}`,
 				environment: {
 					TWITTER_APP_KEY,
 					TWITTER_APP_SECRET,
@@ -106,6 +137,7 @@ export class TicketTracker extends cdk.Stack {
 
 		table.grantReadWriteData(matchTicketsLambdaFunction);
 		table.grantReadWriteData(seasonTicketsLambdaFunction);
+		table.grantReadWriteData(upcomingMatchesTicketsLambdaFunction);
 
 		MATCH_TWEET_TIMES.forEach((time) => {
 			new events.Rule(this, `${EVENT_NAME}-${time}`, {
@@ -119,6 +151,14 @@ export class TicketTracker extends cdk.Stack {
 			new events.Rule(this, `${EVENT_NAME}-${time}`, {
 				description: `Runs season ticket tracker lambda function at ${time}:00 every day`,
 				targets: [new eventTargets.LambdaFunction(seasonTicketsLambdaFunction)],
+				schedule: events.Schedule.cron({ hour: time.toString(), minute: "0" }),
+			});
+		});
+
+		UPCOMING_TWEET_TIMES.forEach((time) => {
+			new events.Rule(this, `${EVENT_NAME}-${time}`, {
+				description: `Runs season ticket tracker lambda function at ${time}:00 every day`,
+				targets: [new eventTargets.LambdaFunction(upcomingMatchesTicketsLambdaFunction)],
 				schedule: events.Schedule.cron({ hour: time.toString(), minute: "0" }),
 			});
 		});
