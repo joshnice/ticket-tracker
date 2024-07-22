@@ -15,7 +15,8 @@ module.exports = {
 	tweetUpcomingGames: async (games) => {
 		const gamesString = games
 			.map((game) => `${game.club}: ${game.amount}`)
-			.joim("\n");
+			.join("\n");
+
 		await twitterClient.v2.tweet(
 			`Number of remaining home tickets left for the following games:\n\n
 			${gamesString}\n\n
