@@ -1,4 +1,4 @@
-name: match
+name: upcoming-matches
 on:
     workflow_dispatch:
     push:
