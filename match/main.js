@@ -26,6 +26,7 @@ module.exports = {
 				return new Promise((res) => {
 					const amountStrings = [];
 					const elements = document.getElementsByClassName("amount");
+					console.log(elements.length);
 					for (const element of elements) {
 						amountStrings.push(element.innerText);
 					}
