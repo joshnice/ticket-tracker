@@ -20,13 +20,13 @@ module.exports = {
 
 			await page.goto(url, { waitUntil: "networkidle0" });
 
-			console.log("Starting count", await page.title());
+			console.log("Starting count", url);
 
 			const amounts = await page.evaluate(() => {
 				return new Promise((res) => {
 					const amountStrings = [];
 					const elements = document.getElementsByClassName("amount");
-					console.log(elements.length);
+					console.log("amount of amounts", elements.length);
 					for (const element of elements) {
 						amountStrings.push(element.innerText);
 					}
