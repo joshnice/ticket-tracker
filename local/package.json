@@ -2,13 +2,13 @@
 	"name": "@ticket-tracker/local",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
-	"type": "commonjs",
+	"type": "module",
 	"scripts": {
-		"dev": "node index.js"
+		"dev": "node ./src/index.js"
 	},
 	"dependencies": {
 		"@sparticuz/chromium": "^123.0.0",
+		"puppeteer-core": "19.6.3",
 		"puppeteer-extra": "3.3.6",
 		"puppeteer-extra-plugin-stealth": "2.11.2"
 	},

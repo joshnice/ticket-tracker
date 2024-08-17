@@ -1,5 +1,5 @@
-const { getAmountOfTickets } = require("./puppeteer.js");
-const fs = require("node:fs/promises");
+import { getAmountOfTickets } from "./puppeteer.js";
+import { writeFile } from "node:fs/promises";
 
 async function main() {
 	const url =
@@ -8,7 +8,7 @@ async function main() {
 	const { screenshot, result } = await getAmountOfTickets(url);
 
 	const buffer = Buffer.from(screenshot, "base64");
-	await fs.writeFile("output.png", buffer);
+	await writeFile("output.png", buffer);
 
 	console.log(result);
 }
