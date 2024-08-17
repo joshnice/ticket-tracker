@@ -11,6 +11,6 @@ module.exports = {
 
 		const amount = await getAmountOfTickets(nextGame.url);
 
-		// await tweetAmountOfTicketsLeft(nextGame.match, amount, nextGame.venue);
+		await tweetAmountOfTicketsLeft(nextGame.match, amount, nextGame.venue);
 	},
 };
