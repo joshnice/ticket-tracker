@@ -5,8 +5,7 @@
 	"type": "module",
 	"dependencies": {
 		"@ticket-tracker/get-tickets": "@ticket-tracker/get-tickets",
-		"dotenv": "^16.4.5",
-		"twitter-api-v2": "^1.16.1"
+		"@ticket-tracker/twitter": "@ticket-tracker/twitter"
 	},
 	"author": "joshnice",
 	"license": "ISC"
