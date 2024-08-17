@@ -6,12 +6,13 @@
 	"workspaces": [
 		"./aws",
 		"./match",
-		"./season-ticket"
+		"./season-ticket",
+		"./local"
 	],
 	"scripts": {
 		"aws-deploy": "cd aws && cdk deploy",
 		"aws-destroy": "cd aws && cdk destroy",
-		"dev": "node ./puppeteer/local.js"
+		"dev": "npm run dev -w @ticket-tracker/local"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.6.3"
