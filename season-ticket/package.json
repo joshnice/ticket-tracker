@@ -11,6 +11,8 @@
     "@sparticuz/chromium": "^123.0.0",
     "dotenv": "^16.4.5",
     "puppeteer-core": "19.6.3",
+    "puppeteer-extra": "3.3.6",
+    "puppeteer-extra-plugin-stealth": "2.11.2",
     "twitter-api-v2": "^1.16.1"
   },
   "author": "joshnice",

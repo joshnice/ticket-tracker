@@ -15,6 +15,6 @@ module.exports = {
 			gamesToPost.push({ club: game.match, amount });
 		}
 
-		// await tweetUpcomingGames(gamesToPost);
+		await tweetUpcomingGames(gamesToPost);
 	},
 };

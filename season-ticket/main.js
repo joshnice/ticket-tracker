@@ -1,5 +1,8 @@
 const puppeteer = require("puppeteer-core");
 const chromium = require("@sparticuz/chromium");
+const StealthPlugin = require("puppeteer-extra-plugin-stealth");
+
+puppeteer.use(StealthPlugin());
 
 module.exports = {
 	/**
@@ -12,7 +15,7 @@ module.exports = {
 				args: chromium.args,
 				defaultViewport: chromium.defaultViewport,
 				executablePath: await chromium.executablePath(),
-				headless: chromium.headless,
+				headless: true,
 				ignoreHTTPSErrors: true,
 			});
 
