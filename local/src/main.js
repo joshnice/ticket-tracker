@@ -1,4 +1,4 @@
-import { getAmountOfTickets } from "./puppeteer.js";
+import { getAmountOfTickets } from "@ticket-tracker/get-tickets";
 import { writeFile } from "node:fs/promises";
 
 async function main() {

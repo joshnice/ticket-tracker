@@ -5,6 +5,7 @@
 	"main": "index.js",
 	"workspaces": [
 		"./aws",
+		"./ticket-getter",
 		"./match",
 		"./season-ticket",
 		"./local"

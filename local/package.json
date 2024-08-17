@@ -4,13 +4,10 @@
 	"description": "",
 	"type": "module",
 	"scripts": {
-		"dev": "node ./src/index.js"
+		"dev": "node ./src/main.js"
 	},
 	"dependencies": {
-		"@sparticuz/chromium": "^123.0.0",
-		"puppeteer-core": "19.6.3",
-		"puppeteer-extra": "3.3.6",
-		"puppeteer-extra-plugin-stealth": "2.11.2"
+		"@ticket-tracker/get-tickets": "@ticket-tracker/get-tickets"
 	},
 	"author": "joshnice",
 	"license": "ISC"
