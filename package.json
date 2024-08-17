@@ -8,7 +8,9 @@
 		"./ticket-getter",
 		"./match",
 		"./season-ticket",
-		"./local"
+		"./local",
+		"./twitter",
+		"./dynamo"
 	],
 	"scripts": {
 		"aws-deploy": "cd aws && cdk deploy",

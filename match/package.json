@@ -4,6 +4,7 @@
 	"description": "",
 	"type": "module",
 	"dependencies": {
+		"@ticket-tracker/dyanmo": "@ticket-tracker/dyanmo",
 		"@ticket-tracker/get-tickets": "@ticket-tracker/get-tickets",
 		"@ticket-tracker/twitter": "@ticket-tracker/twitter"
 	},

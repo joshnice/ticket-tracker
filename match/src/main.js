@@ -1,6 +1,6 @@
-import { getGames } from "./dynamo.js";
+import { getGames } from "@ticket-tracker/dyanmo";
 import { getAmountOfTickets } from "@ticket-tracker/get-tickets";
-import { tweetAmountOfTicketsLeft } from "./twitter.js";
+import { postTweet } from "@ticket-tracker/twitter";
 
 export async function handler() {
 	const games = await getGames();
@@ -11,5 +11,6 @@ export async function handler() {
 
 	const amount = await getAmountOfTickets(nextGame.url);
 
-	await tweetAmountOfTicketsLeft(nextGame.match, amount, nextGame.venue);
+	const tweet = `Number of remaining ${nextGame.venue} tickets left for the ${nextGame.match} game is ${amount} \n\n#dcfc #dcfcfans 🐏🐏🐏`;
+	await postTweet(tweet);
 }
