@@ -29,13 +29,13 @@ jobs:
                 cache: npm
 
             - name: Setup folder for install
-              run: mv ./match ../build
+              run: rm -r aws local season-ticket upcoming-matches
             
             - name: Install dependencies
-              run: cd ../build && npm i
+              run: npm i
 
             - name: Zip code and dependencies
-              run: cd ../build && zip -r function ./node_modules index.js main.js dynamo.js twitter.js package.json
+              run: zip -r function ./node_modules ./match ./ticket-getter
             
             - name: Sync S3 bucket 
               run: cd ../build && aws s3 cp ./function.zip s3://ticket-tracker-lambda-code-bucket-match-tickets

@@ -72,7 +72,7 @@ export class TicketTracker extends cdk.Stack {
 			`match-${LAMBDA_NAME}`,
 			{
 				runtime: lambda.Runtime.NODEJS_20_X,
-				handler: "index.handler",
+				handler: "./match/src/main.handler",
 				code: lambda.Code.fromBucket(matchDayTicketsBucket, "function.zip"),
 				timeout: cdk.Duration.minutes(5),
 				memorySize: 512,
