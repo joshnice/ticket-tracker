@@ -11,6 +11,8 @@ export async function handler() {
 
 	const { totalAmount } = await getAmountOfTickets(nextGame.url);
 
-	const tweet = `Number of remaining ${nextGame.venue} tickets left for the ${nextGame.match} game is ${totalAmount} \n\n#dcfc #dcfcfans 🐏🐏🐏`;
+	const venue = nextGame.venue ?? "home";
+
+	const tweet = `Number of remaining ${venue} tickets left for the ${nextGame.match} game is ${totalAmount} \n\n#dcfc #dcfcfans 🐏🐏🐏`;
 	await postTweet(tweet);
 }
