@@ -35,7 +35,7 @@ jobs:
               run: npm i -w @ticket-tracker/match @ticket-tracker/dynamo @ticket-tracker/get-tickets @ticket-tracker/twitter
 
             - name: Zip code and dependencies
-              run: zip -r function ./node_modules ./match ./ticket-getter ./dynamo ./twitter 
+              run: zip -r function .
             
             - name: Sync S3 bucket 
               run: aws s3 cp ./function.zip s3://ticket-tracker-lambda-code-bucket-match-tickets
