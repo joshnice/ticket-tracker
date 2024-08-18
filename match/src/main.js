@@ -1,4 +1,4 @@
-import { getGames } from "@ticket-tracker/dyanmo";
+import { getGames } from "@ticket-tracker/dynamo";
 import { getAmountOfTickets } from "@ticket-tracker/get-tickets";
 import { postTweet } from "@ticket-tracker/twitter";
 

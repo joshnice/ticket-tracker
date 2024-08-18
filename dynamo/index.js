@@ -1,2 +1,2 @@
-export * from "./src/get-games";
-export * from "./src/get-season-tickets";
+export * from "./src/get-games.js";
+export * from "./src/get-season-tickets.js";

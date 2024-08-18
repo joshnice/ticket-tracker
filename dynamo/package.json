@@ -1,10 +1,11 @@
 {
-	"name": "@ticket-tracker/dyanmo",
+	"name": "@ticket-tracker/dynamo",
 	"version": "1.0.0",
 	"main": "index.js",
 	"type": "module",
 	"dependencies": {
-		"@aws-sdk/client-dynamodb": "^3.540.0",
+		"@aws-sdk/client-dynamodb": "^3.632.0",
+		"@aws-sdk/lib-dynamodb": "^3.632.0",
 		"dotenv": "^16.4.5"
 	},
 	"author": "joshnice",
