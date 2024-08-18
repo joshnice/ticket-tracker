@@ -38,7 +38,7 @@ jobs:
               run: zip -r function .
 
             - name: Sync S3 bucket 
-              run: cd ../build && aws s3 cp ./function.zip s3://ticket-tracker-lambda-code-bucket-season-tickets
+              run: aws s3 cp ./function.zip s3://ticket-tracker-lambda-code-bucket-season-tickets
             
             - name: Update lambda function
               run: aws lambda update-function-code --function-name season-ticket-tracker --s3-bucket ticket-tracker-lambda-code-bucket-season-tickets --s3-key function.zip 
