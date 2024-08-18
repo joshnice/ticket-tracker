@@ -8,7 +8,7 @@ on:
             match/**
 
 jobs: 
-    upload:
+    match:
         runs-on: ubuntu-latest
 
         steps:

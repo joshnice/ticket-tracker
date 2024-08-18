@@ -2,16 +2,11 @@
 	"name": "@ticket-tracker/upcoming-matches",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
-	"type": "commonjs",
+	"type": "module",
 	"dependencies": {
-		"@aws-sdk/client-dynamodb": "^3.540.0",
-		"@sparticuz/chromium": "^123.0.0",
-		"dotenv": "^16.4.5",
-		"puppeteer-core": "19.6.3",
-		"puppeteer-extra": "3.3.6",
-		"puppeteer-extra-plugin-stealth": "2.11.2",
-		"twitter-api-v2": "^1.16.1"
+		"@ticket-tracker/dynamo": "@ticket-tracker/dynamo",
+		"@ticket-tracker/get-tickets": "@ticket-tracker/get-tickets",
+		"@ticket-tracker/twitter": "@ticket-tracker/twitter"
 	},
 	"author": "joshnice",
 	"license": "ISC"
