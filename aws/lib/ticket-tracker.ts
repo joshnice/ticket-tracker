@@ -7,7 +7,9 @@ import {
 	aws_events as events,
 	aws_events_targets as eventTargets,
 } from "aws-cdk-lib";
-import "dotenv/config";
+import { config } from "dotenv";
+
+config();
 
 const NAME = "ticket-tracker";
 const BUCKET_NAME = `${NAME}-lambda-code-bucket`;
@@ -58,6 +60,9 @@ export class TicketTracker extends cdk.Stack {
 			TWITTER_ACCESS_TOKEN,
 			TWITTER_ACCESS_SECRET,
 		} = process.env;
+
+		console.log("TWITTER_APP_KEY", TWITTER_APP_KEY);
+
 		if (
 			TWITTER_APP_KEY == null ||
 			TWITTER_APP_SECRET == null ||
@@ -92,7 +97,7 @@ export class TicketTracker extends cdk.Stack {
 			`upcoming-matches-${LAMBDA_NAME}`,
 			{
 				runtime: lambda.Runtime.NODEJS_20_X,
-				handler: "index.handler",
+				handler: "./upcoming-matches/src/main.handler",
 				code: lambda.Code.fromBucket(upcomingMatchesBucket, "function.zip"),
 				timeout: cdk.Duration.minutes(5),
 				memorySize: 512,
@@ -112,7 +117,7 @@ export class TicketTracker extends cdk.Stack {
 			`season-${LAMBDA_NAME}`,
 			{
 				runtime: lambda.Runtime.NODEJS_20_X,
-				handler: "index.handler",
+				handler: "./season-ticket/src/main.handler",
 				code: lambda.Code.fromBucket(seasonTicketBucket, "function.zip"),
 				timeout: cdk.Duration.minutes(5),
 				memorySize: 512,
