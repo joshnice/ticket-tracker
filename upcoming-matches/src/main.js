@@ -11,8 +11,8 @@ export async function handler() {
 	const gamesToPost = [];
 
 	for (const game of upcomingGames) {
-		const amount = await getAmountOfTickets(game.url);
-		gamesToPost.push({ club: game.match, amount });
+		const { totalAmount } = await getAmountOfTickets(game.url);
+		gamesToPost.push({ club: game.match, amount: totalAmount });
 	}
 
 	const gamesString = gamesToPost

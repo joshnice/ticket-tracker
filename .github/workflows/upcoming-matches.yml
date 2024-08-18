@@ -8,7 +8,7 @@ on:
             upcoming-matches/**
 
 jobs: 
-    upload:
+    upcoming-matches:
         runs-on: ubuntu-latest
 
         steps:
@@ -28,15 +28,15 @@ jobs:
                 node-version: latest
                 cache: npm
 
-            - name: Setup folder for install
-              run: mv ./upcoming-matches ../build
+            - name: Remove aws module
+              run: rm -r aws
             
             - name: Install dependencies
-              run: cd ../build && npm i
+              run: npm i
 
             - name: Zip code and dependencies
-              run: cd ../build && zip -r function ./node_modules index.js main.js dynamo.js twitter.js package.json
-            
+              run: zip -r function .
+
             - name: Sync S3 bucket 
               run: cd ../build && aws s3 cp ./function.zip s3://ticket-tracker-lambda-code-bucket-upcoming-matches-tickets
             

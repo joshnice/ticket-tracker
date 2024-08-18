@@ -8,7 +8,7 @@ on:
             season-ticket/**
 
 jobs: 
-    upcoming_matches:
+    season-tickets:
         runs-on: ubuntu-latest
 
         steps:
