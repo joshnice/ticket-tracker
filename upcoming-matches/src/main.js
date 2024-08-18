@@ -19,7 +19,7 @@ export async function handler() {
 		.map((game) => `${game.club} - ${game.amount}`)
 		.join("\n");
 
-	const tweet = `Number of remaining home tickets left for the next ${games.length} games\n\n
+	const tweet = `Number of remaining home tickets left for the next ${upcomingGames.length} games\n\n
 			${gamesString}\n\n
 			#dcfc #dcfcfans 🐏🐏🐏`;
 
