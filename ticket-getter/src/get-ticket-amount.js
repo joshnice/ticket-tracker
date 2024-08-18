@@ -6,7 +6,7 @@ puppeteer.use(StealthPlugin());
 
 /**
  * @param {string} url
- * @returns {Promise<number>}
+ * @returns {Promise<{ totalAmount: number, screenshot: Base64 }>}
  */
 export async function getAmountOfTickets(url) {
 	try {
