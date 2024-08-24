@@ -17,11 +17,11 @@ const LAMBDA_NAME = NAME;
 const DYNAMODB_NAME = NAME;
 const EVENT_NAME = `${NAME}-events`;
 
-const MATCH_TWEET_TIMES = [18];
+const MATCH_TWEET_TIMES: number[] = [18];
 
-const SEASON_TICKET_TWEET_TIMES = [17];
+const SEASON_TICKET_TWEET_TIMES: number[] = [];
 
-const UPCOMING_TWEET_TIMES = [19];
+const UPCOMING_TWEET_TIMES: number[] = [19];
 
 export class TicketTracker extends cdk.Stack {
 	constructor(scope: Construct, id: string, props?: cdk.StackProps) {
