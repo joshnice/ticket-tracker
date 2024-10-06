@@ -10,18 +10,21 @@ export async function handler() {
 
 	const gamesToPost = [];
 
-	for (const game of upcomingGames) {
-		const { totalAmount } = await getAmountOfTickets(game.url);
-		gamesToPost.push({ club: game.match, amount: totalAmount });
-	}
+	if (games.length > 0) {
 
-	const gamesString = gamesToPost
-		.map((game) => `${game.club} - ${game.amount}`)
-		.join("\n");
+		for (const game of upcomingGames) {
+			const { totalAmount } = await getAmountOfTickets(game.url);
+			gamesToPost.push({ club: game.match, amount: totalAmount });
+		}
 
-	const tweet = `Number of remaining home tickets left for the next ${upcomingGames.length} games\n\n
+		const gamesString = gamesToPost
+			.map((game) => `${game.club} - ${game.amount}`)
+			.join("\n");
+
+		const tweet = `Number of remaining home tickets left for the next ${upcomingGames.length} games\n\n
 			${gamesString}\n\n
 			#dcfc #dcfcfans 🐏🐏🐏`;
 
-	await postTweet(tweet);
+		await postTweet(tweet);
+	}
 }
