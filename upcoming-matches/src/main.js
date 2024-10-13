@@ -10,7 +10,7 @@ export async function handler() {
 
 	const gamesToPost = [];
 
-	if (games.length > 0) {
+	if (upcomingGames.length > 0) {
 
 		for (const game of upcomingGames) {
 			const { totalAmount } = await getAmountOfTickets(game.url);
