@@ -1,5 +1,5 @@
 import { getGames, } from "@ticket-tracker/dynamo";
-import { getUpcomngMatches } from "@ticket-tracker/ticket-getter";
+import { getUpcomngMatches } from "@ticket-tracker/match-getter";
 
 export async function handler() {
 	const matches = await getUpcomngMatches();
