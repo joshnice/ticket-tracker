@@ -16,6 +16,7 @@ export async function insertGames(games) {
                     PutRequest: {
                         Item: {
                             match: { S: game.match },
+                            type: { S: "Match" },
                             match_time: { N: game.matchTime.toString() },
                             url: { S: game.url }
                         }
