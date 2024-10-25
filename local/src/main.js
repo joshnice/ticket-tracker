@@ -1,8 +1,7 @@
-import { getUpcomngMatches } from "@ticket-tracker/match-getter";
-import { writeFile } from "node:fs/promises";
+import { getUpcomingMatches } from "@ticket-tracker/match-getter";
 
 async function main() {
-	const matches = await getUpcomngMatches();
+	const matches = await getUpcomingMatches();
 	console.log("matches", matches);
 	// if (screenshot) {
 	// 	const buffer = Buffer.from(screenshot, "base64");

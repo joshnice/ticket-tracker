@@ -1,9 +1,9 @@
 import { getGames, insertGames } from "@ticket-tracker/dynamo";
-import { getUpcomngMatches } from "@ticket-tracker/match-getter";
+import { getUpcomingMatches } from "@ticket-tracker/match-getter";
 
 export async function handler() {
 	console.log("start");
-	const matches = await getUpcomngMatches();
+	const matches = await getUpcomingMatches();
 	console.log("matches", matches);
 	const matchesInDb = await getGames();
 	console.log("matchesInDb", matchesInDb);

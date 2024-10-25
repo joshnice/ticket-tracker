@@ -9,7 +9,7 @@ const url = "https://tickets.dcfc.co.uk/en-GB/categories/home";
 /**
  * @returns {Promise<{ url: string, name: string, date: number}[]>}
  */
-export async function getUpcomngMatches() {
+export async function getUpcomingMatches() {
 	try {
 		const browser = await puppeteer.launch({
 			args: chromium.args,
@@ -20,6 +20,8 @@ export async function getUpcomngMatches() {
 		});
 
 		const page = await browser.newPage();
+
+		page.setDefaultNavigationTimeout(0);
 
 		await page.goto(url, { waitUntil: "networkidle0" });
 
@@ -55,6 +57,7 @@ export async function getUpcomngMatches() {
  */
 async function getMatchDetails(url, browser) {
 	const page = await browser.newPage();
+	page.setDefaultNavigationTimeout(0);
 	await page.goto(url, { waitUntil: "networkidle0" });
 
 	const name = await page.evaluate(() => {
