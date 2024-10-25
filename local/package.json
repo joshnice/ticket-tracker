@@ -7,7 +7,7 @@
 		"dev": "node ./src/main.js"
 	},
 	"dependencies": {
-		"@ticket-tracker/get-tickets": "@ticket-tracker/get-tickets"
+		"@ticket-tracker/match-getter": "@ticket-tracker/match-getter"
 	},
 	"author": "joshnice",
 	"license": "ISC"

@@ -6,6 +6,7 @@
 	"workspaces": [
 		"./aws",
 		"./ticket-getter",
+		"./match-getter",
 		"./match",
 		"./season-ticket",
 		"./local",
