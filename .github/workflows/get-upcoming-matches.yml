@@ -40,5 +40,5 @@ jobs:
             - name: Sync S3 bucket 
               run: aws s3 cp ./function.zip s3://ticket-tracker-lambda-code-bucket-get-upcoming-matches
             
-            # - name: Update lambda function
-            #   run: aws lambda update-function-code --function-name HERE --s3-bucket HERE --s3-key function.zip 
+            - name: Update lambda function
+              run: aws lambda update-function-code --function-name get-upcoming-matches-ticket-tracker --s3-bucket ticket-tracker-lambda-code-bucket-get-upcoming-matches --s3-key function.zip 
