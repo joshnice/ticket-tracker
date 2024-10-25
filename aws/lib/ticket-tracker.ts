@@ -23,6 +23,8 @@ const SEASON_TICKET_TWEET_TIMES: number[] = [];
 
 const UPCOMING_TWEET_TIMES: number[] = [19];
 
+const GET_UPCOMING_MATCHES: number[] = [12];
+
 export class TicketTracker extends cdk.Stack {
 	constructor(scope: Construct, id: string, props?: cdk.StackProps) {
 		super(scope, id, props);
@@ -50,6 +52,15 @@ export class TicketTracker extends cdk.Stack {
 			`${BUCKET_NAME}-upcoming-matches-tickets`,
 			{
 				bucketName: `${BUCKET_NAME}-upcoming-matches-tickets`,
+				removalPolicy: cdk.RemovalPolicy.DESTROY,
+			},
+		);
+
+		const getUpcomingMatchesBucket = new s3.Bucket(
+			this,
+			`${BUCKET_NAME}-get-upcoming-matches`,
+			{
+				bucketName: `${BUCKET_NAME}-get-upcoming-matches`,
 				removalPolicy: cdk.RemovalPolicy.DESTROY,
 			},
 		);
@@ -132,6 +143,22 @@ export class TicketTracker extends cdk.Stack {
 			},
 		);
 
+		const getUpcomingMatchesLambdaFunction = new lambda.Function(
+			this,
+			`get-upcoming-matches-${LAMBDA_NAME}`,
+			{
+				runtime: lambda.Runtime.NODEJS_20_X,
+				handler: "./get-upcoming-matches/src/main.handler",
+				code: lambda.Code.fromBucket(getUpcomingMatchesBucket, "function.zip"),
+				timeout: cdk.Duration.minutes(5),
+				memorySize: 512,
+				functionName: `get-upcoming-matches-${LAMBDA_NAME}`,
+				environment: {
+					DYNAMO_TABLE_NAME: NAME,
+				},
+			},
+		);
+
 		const table = new dynamodb.TableV2(this, DYNAMODB_NAME, {
 			tableName: DYNAMODB_NAME,
 			partitionKey: { name: "match", type: dynamodb.AttributeType.STRING },
@@ -143,6 +170,7 @@ export class TicketTracker extends cdk.Stack {
 		table.grantReadWriteData(matchTicketsLambdaFunction);
 		table.grantReadWriteData(seasonTicketsLambdaFunction);
 		table.grantReadWriteData(upcomingMatchesTicketsLambdaFunction);
+		table.grantReadWriteData(getUpcomingMatchesLambdaFunction);
 
 		MATCH_TWEET_TIMES.forEach((time) => {
 			new events.Rule(this, `${EVENT_NAME}-${time}`, {
@@ -164,6 +192,14 @@ export class TicketTracker extends cdk.Stack {
 			new events.Rule(this, `${EVENT_NAME}-${time}`, {
 				description: `Runs season ticket tracker lambda function at ${time}:00 every day`,
 				targets: [new eventTargets.LambdaFunction(upcomingMatchesTicketsLambdaFunction)],
+				schedule: events.Schedule.cron({ hour: time.toString(), minute: "0" }),
+			});
+		});
+
+		GET_UPCOMING_MATCHES.forEach((time) => {
+			new events.Rule(this, `${EVENT_NAME}-${time}`, {
+				description: `Runs get upcoming matches ticket tracker lambda function at ${time}:00 every day`,
+				targets: [new eventTargets.LambdaFunction(getUpcomingMatchesLambdaFunction)],
 				schedule: events.Schedule.cron({ hour: time.toString(), minute: "0" }),
 			});
 		});
