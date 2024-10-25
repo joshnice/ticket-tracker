@@ -1,0 +1,12 @@
+{
+	"name": "@ticket-tracker/get-upcoming-matches",
+	"version": "1.0.0",
+	"description": "",
+	"type": "module",
+	"dependencies": {
+		"@ticket-tracker/dynamo": "@ticket-tracker/dynamo",
+		"@ticket-tracker/ticket-getter": "@ticket-tracker/ticket-getter"
+	},
+	"author": "joshnice",
+	"license": "ISC"
+}

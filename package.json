@@ -11,7 +11,8 @@
 		"./season-ticket",
 		"./local",
 		"./twitter",
-		"./dynamo"
+		"./dynamo",
+		"./get-upcoming-matches"
 	],
 	"scripts": {
 		"aws-deploy": "cd aws && cdk deploy",

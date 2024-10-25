@@ -7,7 +7,7 @@ puppeteer.use(StealthPlugin());
 const url = "https://tickets.dcfc.co.uk/en-GB/categories/home";
 
 /**
- * @returns {Promise<{  screenshot: Base64 }>}
+ * @returns {Promise<{ url: string, name: string, date: number}>}
  */
 export async function getUpcomngMatches() {
 	try {
@@ -42,7 +42,7 @@ export async function getUpcomngMatches() {
 
 		await page.close();
 		await browser.close();
-		return { matches: matchesReps };
+		return matchesReps;
 	} catch (error) {
 		console.log("error", error);
 		return [];
@@ -73,6 +73,6 @@ async function getMatchDetails(url, browser) {
 	return {
 		url,
 		name: name.replace("Derby County v ", ""),
-		date: url.split("/")[6].replace("_", " ").replace(".", ":")
+		date: new Date(url.split("/")[6].replace("_", " ").replace(".", ":")).getTime()
 	}
 }
