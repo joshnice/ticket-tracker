@@ -41,7 +41,6 @@ export async function getUpcomingMatches() {
 		await page.close();
 
 		const matchLinks = links.filter((link) => link.includes("pride%20park%20stadium"));
-		console.log("matchesLinks", matchLinks);
 		const matches = [];
 		for (const link of matchLinks) {
 			const res = await getMatchDetails(link, browser);
@@ -82,6 +81,6 @@ async function getMatchDetails(url, browser) {
 	return {
 		url,
 		name: name.replace("Derby County v ", ""),
-		date: new Date(url.split("/")[6].replace("_", " ").replace(".", ":")).getTime()
+		date: new Date(url.split("/")[6].replace("_", " ").replace(".", ":")).getTime() / 1000
 	}
 }
