@@ -8,7 +8,7 @@ const client = new DynamoDBClient({});
 /**
  * @param {{ match: string, matchTime: number, url: string }[]} games 
  */
-export async function insertGame(games) {
+export async function insertGames(games) {
     const input = {
         RequestItems: {
             [process.env.DYNAMO_TABLE_NAME]: games.map((game) => {
