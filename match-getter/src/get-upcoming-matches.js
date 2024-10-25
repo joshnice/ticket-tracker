@@ -7,7 +7,7 @@ puppeteer.use(StealthPlugin());
 const url = "https://tickets.dcfc.co.uk/en-GB/categories/home";
 
 /**
- * @returns {Promise<{ url: string, name: string, date: number}>}
+ * @returns {Promise<{ url: string, name: string, date: number}[]>}
  */
 export async function getUpcomngMatches() {
 	try {
@@ -37,7 +37,8 @@ export async function getUpcomngMatches() {
 		});
 
 		const matchLinks = links.filter((link) => link.includes("pride%20park%20stadium"));
-		const matchesReqs = matchLinks.map((link) => getMatchDetails(link, browser))
+		console.log("matchesLinks", matchLinks);
+		const matchesReqs = matchLinks.map((link) => getMatchDetails(link, browser));
 		const matchesReps = await Promise.all(matchesReqs);
 
 		await page.close();
@@ -61,7 +62,6 @@ async function getMatchDetails(url, browser) {
 			const elements = document.getElementsByClassName("name");
 			for (const element of elements) {
 				const text = element.textContent;
-				console.log(text);
 				if (text?.toLowerCase()?.includes("derby county")) {
 					res(element.textContent);
 				}
