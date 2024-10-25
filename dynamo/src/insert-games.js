@@ -15,15 +15,9 @@ export async function insertGames(games) {
                 return ({
                     PutRequest: {
                         Item: {
-                            match: {
-                                S: game.match
-                            },
-                            match_time: {
-                                N: game.matchTime
-                            },
-                            url: {
-                                S: game.url
-                            }
+                            match: { S: game.match },
+                            match_time: { N: game.matchTime.toString() },
+                            url: { S: game.url }
                         }
                     }
                 });
