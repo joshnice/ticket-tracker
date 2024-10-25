@@ -2,7 +2,7 @@ import { getGames, insertGames } from "@ticket-tracker/dynamo";
 import { getUpcomngMatches } from "@ticket-tracker/match-getter";
 
 export async function handler() {
-	console.log("start", start);
+	console.log("start");
 	const matches = await getUpcomngMatches();
 	console.log("matches", matches);
 	const matchesInDb = await getGames();
