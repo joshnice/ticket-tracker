@@ -3,7 +3,9 @@ import { getUpcomngMatches } from "@ticket-tracker/match-getter";
 
 export async function handler() {
 	const matches = await getUpcomngMatches();
+	console.log("matches", matches);
 	const matchesInDb = await getGames();
+	console.log("matchesInDb", matchesInDb);
 	const matchesToAdd = [];
 	matches.forEach((match) => {
 		if (!matchesInDb.some((m) => m.match === match.name)) {
