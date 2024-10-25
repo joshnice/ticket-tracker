@@ -38,14 +38,18 @@ export async function getUpcomingMatches() {
 			});
 		});
 
+		await page.close();
+
 		const matchLinks = links.filter((link) => link.includes("pride%20park%20stadium"));
 		console.log("matchesLinks", matchLinks);
-		const matchesReqs = matchLinks.map((link) => getMatchDetails(link, browser));
-		const matchesReps = await Promise.all(matchesReqs);
+		const matches = [];
+		for (const link of matchLinks) {
+			const res = await getMatchDetails(link, browser);
+			matches.push(res)
+		}
 
-		await page.close();
 		await browser.close();
-		return matchesReps;
+		return matches;
 	} catch (error) {
 		console.log("error", error);
 		return [];
@@ -72,6 +76,8 @@ async function getMatchDetails(url, browser) {
 			res();
 		});
 	});
+
+	await page.close();
 
 	return {
 		url,
