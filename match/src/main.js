@@ -9,7 +9,13 @@ export async function handler() {
 		.filter((game) => new Date(game.match_time * 1000) > new Date())
 		.sort((gameA, gameB) => gameA.match_time - gameB.match_time);
 
-	const { totalAmount } = await getAmountOfTickets(nextGame.url);
+	const response = await getAmountOfTickets(nextGame.url);
+
+	if (response == null) {
+		return;
+	}
+
+	const totalAmount = { response };
 
 	const venue = nextGame.venue ?? "home";
 

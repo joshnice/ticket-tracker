@@ -6,7 +6,7 @@ puppeteer.use(StealthPlugin());
 
 /**
  * @param {string} url
- * @returns {Promise<{ totalAmount: number, screenshot: Base64 }>}
+ * @returns {Promise<{ totalAmount: number, screenshot: Base64 } | null>}
  */
 export async function getAmountOfTickets(url) {
 	try {
@@ -30,6 +30,10 @@ export async function getAmountOfTickets(url) {
 			return new Promise((res) => {
 				const amountStrings = [];
 				const elements = document.getElementsByClassName("amount");
+				if (elements.length === 0) {
+					res(null);
+				}
+
 				console.log("amount of amounts", elements.length);
 				for (const element of elements) {
 					amountStrings.push(element.innerText);
@@ -37,6 +41,10 @@ export async function getAmountOfTickets(url) {
 				res(amountStrings);
 			});
 		});
+
+		if (amounts == null) {
+			return null;
+		}
 
 		const totalAmount = amounts.reduce((total, amountValue) => {
 			if (amountValue === "") {

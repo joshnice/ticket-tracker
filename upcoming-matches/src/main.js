@@ -13,8 +13,14 @@ export async function handler() {
 	if (upcomingGames.length > 0) {
 
 		for (const game of upcomingGames) {
-			const { totalAmount } = await getAmountOfTickets(game.url);
-			gamesToPost.push({ club: game.match, amount: totalAmount });
+			const response = await getAmountOfTickets(game.url);
+			if (response != null) {
+				gamesToPost.push({ club: game.match, amount: totalAmount });
+			}
+		}
+
+		if (gamesToPost.length === 0) {
+			return;
 		}
 
 		const gamesString = gamesToPost
